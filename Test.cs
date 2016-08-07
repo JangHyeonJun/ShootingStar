@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class Test : MonoBehaviour {
 
@@ -17,6 +18,11 @@ public class Test : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-       txt.text = "screen좌표 : " + arrCtrl.screenPos +"\nworld좌표 : " + arrCtrl.worldPos ;
+        try
+        {
+            txt.text = "screen좌표 : " + arrCtrl.screenPos + "\nworld좌표 : " + arrCtrl.worldPos;
+        }
+        catch(Exception e)
+        { }
     }
 }

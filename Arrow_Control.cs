@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using UnityEngine.UI;
 
 public class Arrow_Control : MonoBehaviour
 {
@@ -11,12 +13,13 @@ public class Arrow_Control : MonoBehaviour
 
     public GameObject shootingStar;
     public GameObject arrowHead, arrowBody;
+    public Text txt;
 
 
     // Use this for initialization
     void Start()
     {
-
+        screenPos = Camera.main.WorldToScreenPoint(transform.position);
         arrowHead.SetActive(false);
         arrowBody.SetActive(false);
 
@@ -27,45 +30,46 @@ public class Arrow_Control : MonoBehaviour
     void Update()
     {
 
-        screenPos = Camera.main.WorldToScreenPoint(transform.position);
-
-
-        // 터치
-        if (Input.touches[0].phase == TouchPhase.Began)
+        if (Input.touchCount > 0)
         {
-            arrowHead.SetActive(true);
-            arrowBody.SetActive(true);
-        }
-        if (Input.touches[0].phase == TouchPhase.Moved)
-        {
-            worldPos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+            // 터치
+            if (Input.touches[0].phase == TouchPhase.Began)
+            {
+                arrowHead.SetActive(true);
+                arrowBody.SetActive(true);
+            }
+            if (Input.touches[0].phase == TouchPhase.Moved)
+            {
+                worldPos = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+
+                // 화살표 머리 코드
+                curPosX = Input.touches[0].position.x;
+                curPosY = Input.touches[0].position.y;
+
+                angle = Mathf.Atan2(curPosY - screenPos.y, curPosX - screenPos.x) * Mathf.Rad2Deg;
+                arrowHead.transform.localRotation = Quaternion.Euler(0, 0, angle);
+
+                
+
+                arrowHead.transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
+
+                // 화살표 몸통 코드
+                arrowBody.GetComponent<LineRenderer>().SetPosition(0, transform.position); //몸통 시작점
+                arrowBody.GetComponent<LineRenderer>().SetPosition(1, worldPos);//몸통 끝점
 
 
-            // 화살표 머리 코드
-            curPosX = Input.touches[0].position.x;
-            curPosY = Input.touches[0].position.y;
+            }
+            if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
+            {
+                Instantiate(shootingStar, transform.position, arrowHead.transform.localRotation);
 
-            angle = Mathf.Atan2(curPosY - screenPos.y, curPosX - screenPos.x) * Mathf.Rad2Deg;
-            arrowHead.transform.localRotation = Quaternion.Euler(0, 0, angle);
+                curPosX = 0.0f;
+                curPosY = 0.0f;
 
-            arrowHead.transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
-
-            // 화살표 몸통 코드
-            arrowBody.GetComponent<LineRenderer>().SetPosition(0, transform.position); //몸통 시작점
-            arrowBody.GetComponent<LineRenderer>().SetPosition(1, worldPos);//몸통 끝점
-
-
-        }
-        if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
-        {
-            Instantiate(shootingStar, transform.position, arrowHead.transform.localRotation);
-
-            curPosX = 0.0f;
-            curPosY = 0.0f;
-
-            arrowHead.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
-            arrowHead.SetActive(false);
-            arrowBody.SetActive(false);
+                arrowHead.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
+                arrowHead.SetActive(false);
+                arrowBody.SetActive(false);
+            }
         }
     }
 

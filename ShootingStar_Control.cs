@@ -19,30 +19,15 @@ public class ShootingStar_Control : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D col)
     {
         
-        if(col.name == "UpWall")
+        if(col.name == "UpWall" || col.name == "DownWall")
         {
-            Debug.Log("trigger");
-            Debug.Log(Vector3.Reflect(transform.localEulerAngles, new Vector3(0, -1, 0)));
             transform.localEulerAngles = new Vector3(0, 0, - transform.localEulerAngles.z );
         }
-        if (col.name == "RightWall")
+        if (col.name == "RightWall" || col.name == "LeftWall")
         {
-            Debug.Log("trigger");
-            Debug.Log(Vector3.Reflect(transform.localEulerAngles, new Vector3(0, -1, 0)));
             transform.localEulerAngles = new Vector3(0, 0,  180.0f - transform.localEulerAngles.z );
         }
-        if (col.name == "DownWall")
-        {
-            Debug.Log("trigger");
-            Debug.Log(Vector3.Reflect(transform.localEulerAngles, new Vector3(0, -1, 0)));
-            transform.localEulerAngles = new Vector3(0, 0, - transform.localEulerAngles.z);
-        }
-        if (col.name == "LeftWall")
-        {
-            Debug.Log("trigger");
-            Debug.Log(Vector3.Reflect(transform.localEulerAngles, new Vector3(0, -1, 0)));
-            transform.localEulerAngles = new Vector3(0, 0, 180.0f - transform.localEulerAngles.z);
-        }
+
     }
 
 }
