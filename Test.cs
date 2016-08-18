@@ -20,7 +20,7 @@ public class Test : MonoBehaviour {
 
         try
         {
-            txt.text = "screen좌표 : " + arrCtrl.screenPos + "\nworld좌표 : " + arrCtrl.worldPos;
+
         }
         catch(Exception e)
         { }

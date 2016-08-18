@@ -8,6 +8,7 @@ public class ShootingStar_Control : MonoBehaviour {
 
         speed = 7.0f;
         Destroy(gameObject, 7.0f);
+
     }
 	
 	// Update is called once per frame
@@ -18,8 +19,8 @@ public class ShootingStar_Control : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        
-        if(col.name == "UpWall" || col.name == "DownWall")
+
+        if (col.name == "UpWall" || col.name == "DownWall")
         {
             transform.localEulerAngles = new Vector3(0, 0, - transform.localEulerAngles.z );
         }
@@ -29,5 +30,4 @@ public class ShootingStar_Control : MonoBehaviour {
         }
 
     }
-
 }
