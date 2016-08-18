@@ -2,14 +2,16 @@
 using System.Collections;
 
 public class ShootingStar_Control : MonoBehaviour {
+
     Arrow_Control arrow_ctrl;
     public float speed;
+    int collideCount = 0; //부딪힌 횟수
     // Use this for initialization
     void Start () {
 
         arrow_ctrl = GameObject.Find("Arrow").GetComponent<Arrow_Control>();
         speed = arrow_ctrl.power;
-        Destroy(gameObject, 5.0f);
+
 
     }
 	
@@ -21,6 +23,8 @@ public class ShootingStar_Control : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        if(col.tag != "Enemy")
+            collideCount++;
 
         if (col.name == "UpWall" || col.name == "DownWall")
         {
@@ -31,5 +35,22 @@ public class ShootingStar_Control : MonoBehaviour {
             transform.localEulerAngles = new Vector3(0, 0,  180.0f - transform.localEulerAngles.z );
         }
 
+        if(collideCount == 1)
+        {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+        else if(collideCount == 2)
+        {
+            GetComponent<Renderer>().material.color = Color.blue;
+        }
+        else if(collideCount ==3)
+        {
+            GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else if(collideCount >= 4)
+        {
+            Destroy(gameObject);
+        }
+        speed = speed + (collideCount * 2.0f);
     }
 }

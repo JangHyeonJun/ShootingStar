@@ -65,7 +65,7 @@ public class Arrow_Control : MonoBehaviour
             }
             if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
             {
-                power = relative_worldPos.magnitude * 3.0f;
+                power = relative_worldPos.magnitude * 2.0f;
 
                 Instantiate(shootingStar, firePoint.position, arrowHead.transform.localRotation);
                 arrowHead.SetActive(false);
