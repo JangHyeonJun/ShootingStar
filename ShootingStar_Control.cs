@@ -2,12 +2,14 @@
 using System.Collections;
 
 public class ShootingStar_Control : MonoBehaviour {
-    float speed;
+    Arrow_Control arrow_ctrl;
+    public float speed;
     // Use this for initialization
     void Start () {
 
-        speed = 7.0f;
-        Destroy(gameObject, 7.0f);
+        arrow_ctrl = GameObject.Find("Arrow").GetComponent<Arrow_Control>();
+        speed = arrow_ctrl.power;
+        Destroy(gameObject, 5.0f);
 
     }
 	

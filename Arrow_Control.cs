@@ -8,9 +8,11 @@ using UnityEngine.UI;
 
 public class Arrow_Control : MonoBehaviour
 {
-    public Vector3 curTouch; // (스크린좌표) 현재 터치좌표
-    public Vector3 init_worldPos, worldPos, relative_worldPos; // (월드좌표) 첫, 현재, 현재-첫 
-    public float angle; //화살표의 방향
+
+    Vector3 curTouch; // (스크린좌표) 현재 터치좌표
+    Vector3 init_worldPos, worldPos, relative_worldPos; // (월드좌표) 첫, 현재, 현재-첫 
+    float angle; //화살표의 방향
+    public float power;
 
     public Transform firePoint;
     public GameObject shootingStar;
@@ -23,7 +25,7 @@ public class Arrow_Control : MonoBehaviour
     {
         arrowHead.SetActive(false);
         arrowBody.SetActive(false);
-
+        
     }
 
 
@@ -36,7 +38,7 @@ public class Arrow_Control : MonoBehaviour
             curTouch = Input.touches[0].position;
             worldPos = Camera.main.ScreenToWorldPoint(curTouch);
             
-            txt.text = relative_worldPos.ToString();
+            txt.text = relative_worldPos.magnitude.ToString();
 
             
 
@@ -63,8 +65,9 @@ public class Arrow_Control : MonoBehaviour
             }
             if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
             {
-                Instantiate(shootingStar, firePoint.position, arrowHead.transform.localRotation);
+                power = relative_worldPos.magnitude * 3.0f;
 
+                Instantiate(shootingStar, firePoint.position, arrowHead.transform.localRotation);
                 arrowHead.SetActive(false);
                 arrowBody.SetActive(false);
             }
