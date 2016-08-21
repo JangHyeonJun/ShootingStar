@@ -24,7 +24,7 @@ public class StageManager : MonoBehaviour
         if (enemy.Length <= 0)
         {
             currentStage++;
-            Instantiate(stages[currentStage], stages[currentStage].transform.position, Quaternion.identity);
+            Instantiate(stages[currentStage], stages[currentStage].transform.position, stages[currentStage].transform.rotation);
 
             if (buf = GameObject.FindWithTag("ShootingStar"))
                 Destroy(buf);
