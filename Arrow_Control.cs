@@ -2,13 +2,14 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 
 
 public class Arrow_Control : MonoBehaviour
 {
-
+    
     Vector3 curTouch; // (스크린좌표) 현재 터치좌표
     Vector3 init_worldPos, worldPos, relative_worldPos; // (월드좌표) 첫, 현재, 현재-첫 
     float angle; //화살표의 방향
@@ -18,11 +19,13 @@ public class Arrow_Control : MonoBehaviour
     public GameObject shootingStar;
     public GameObject arrowHead, arrowBody;
     public Text txt;
-
+    AudioSource audio;
+    public List<AudioClip> sounds;
 
     // Use this for initialization
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         arrowHead.SetActive(false);
         arrowBody.SetActive(false);
         
@@ -46,7 +49,10 @@ public class Arrow_Control : MonoBehaviour
             // 터치 단계
             if (Input.touches[0].phase == TouchPhase.Began)
             {
-                init_worldPos = worldPos;       
+                init_worldPos = worldPos;
+                audio.clip = sounds[0];
+                audio.Play();
+                audio.loop = true;
             }
             if (Input.touches[0].phase == TouchPhase.Moved)
             {
@@ -67,6 +73,9 @@ public class Arrow_Control : MonoBehaviour
             {
                 power = relative_worldPos.magnitude * 2.0f;
 
+                audio.clip = sounds[1];
+                audio.loop = false;
+                audio.Play();
                 Instantiate(shootingStar, firePoint.position, arrowHead.transform.localRotation);
                 arrowHead.SetActive(false);
                 arrowBody.SetActive(false);

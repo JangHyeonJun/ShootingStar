@@ -19,11 +19,12 @@ public class ShootingStar_Control : MonoBehaviour {
 	void Update () {
 
         transform.Translate(Vector3.right * Time.deltaTime * speed);
+
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.tag != "Enemy")
+        if(col.tag == "Wall")
             collideCount++;
 
         if (col.name == "UpWall" || col.name == "DownWall")
@@ -52,5 +53,6 @@ public class ShootingStar_Control : MonoBehaviour {
             Destroy(gameObject);
         }
         speed = speed + (collideCount * 2.0f);
+
     }
 }
