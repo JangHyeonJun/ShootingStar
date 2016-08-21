@@ -17,9 +17,9 @@ public class enemy1 : MonoBehaviour {
 
 
             speed = 1.0f;
-        if (stageMng.currentStage == 6)
+        if (stageMng.currentStage == 7)
             speed = 3.0f;
-        else if (stageMng.currentStage == 7)
+        else if (stageMng.currentStage == 8)
             speed = 5.0f;
     }
     void Update()
