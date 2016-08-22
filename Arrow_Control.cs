@@ -18,9 +18,11 @@ public class Arrow_Control : MonoBehaviour
     public Transform firePoint;
     public GameObject shootingStar;
     public GameObject arrowHead, arrowBody;
+    public GameObject emissionParticle;
     public Text txt;
     AudioSource audio;
     public List<AudioClip> sounds;
+
 
     // Use this for initialization
     void Start()
@@ -53,6 +55,7 @@ public class Arrow_Control : MonoBehaviour
                 audio.clip = sounds[0];
                 audio.Play();
                 audio.loop = true;
+                emissionParticle.SetActive(true);
             }
             if (Input.touches[0].phase == TouchPhase.Moved)
             {
@@ -79,6 +82,7 @@ public class Arrow_Control : MonoBehaviour
                 Instantiate(shootingStar, firePoint.position, arrowHead.transform.localRotation);
                 arrowHead.SetActive(false);
                 arrowBody.SetActive(false);
+                emissionParticle.SetActive(false);
             }
         }
     }
