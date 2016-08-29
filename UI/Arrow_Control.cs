@@ -14,6 +14,7 @@ public class Arrow_Control : MonoBehaviour
     Vector3 init_worldPos, worldPos, relative_worldPos; // (월드좌표) 첫, 현재, 현재-첫 
     float angle; //화살표의 방향
     public float power;
+    public float buf;
 
     public Transform firePoint;
     public GameObject shootingStar;
@@ -22,6 +23,7 @@ public class Arrow_Control : MonoBehaviour
     public Text txt;
     AudioSource audio;
     public List<AudioClip> sounds;
+    EnergyBar engCtrl;
 
 
     // Use this for initialization
@@ -30,36 +32,38 @@ public class Arrow_Control : MonoBehaviour
         audio = GetComponent<AudioSource>();
         arrowHead.SetActive(false);
         arrowBody.SetActive(false);
-        
+        engCtrl = GameObject.Find("Energy").GetComponent<EnergyBar>();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        txt.text = engCtrl.CurEng +"  "+ buf;
         if (Input.touchCount > 0)
         {
+            
+
             curTouch = Input.touches[0].position;
             worldPos = Camera.main.ScreenToWorldPoint(curTouch);
-            
-            txt.text = relative_worldPos.magnitude.ToString();
-
-            
-
-            
             // 터치 단계
             if (Input.touches[0].phase == TouchPhase.Began)
             {
+                buf = engCtrl.CurEng; // 현재체력 담아두는 임시변수
                 init_worldPos = worldPos;
                 audio.clip = sounds[0];
                 audio.Play();
                 audio.loop = true;
                 emissionParticle.SetActive(true);
+                
+                
             }
             if (Input.touches[0].phase == TouchPhase.Moved)
             {
                 relative_worldPos = worldPos - init_worldPos;
+
+                
+
                 // 화살표 머리 코드
                 arrowHead.transform.position = new Vector3(firePoint.position.x - relative_worldPos.x * 2.0f, firePoint.position.y - relative_worldPos.y * 2.0f, -10);
                 angle = Mathf.Atan2(-relative_worldPos.y, -relative_worldPos.x) * Mathf.Rad2Deg;
@@ -71,11 +75,15 @@ public class Arrow_Control : MonoBehaviour
 
                 arrowBody.SetActive(true);
                 arrowHead.SetActive(true);
+
+                // 에너지 게이지 코드
+                if (engCtrl.CurEng >= 0)
+                    power = relative_worldPos.magnitude * 2.0f;
+                engCtrl.CurEng = buf - power;
+                
             }
             if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
             {
-                power = relative_worldPos.magnitude * 2.0f;
-
                 audio.clip = sounds[1];
                 audio.loop = false;
                 audio.Play();

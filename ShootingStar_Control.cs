@@ -31,10 +31,12 @@ public class ShootingStar_Control : MonoBehaviour {
         {
             transform.localEulerAngles = new Vector3(0, 0, - transform.localEulerAngles.z );
         }
-        if (col.name == "RightWall" || col.name == "LeftWall")
+        if (col.name == "RightWall")
         {
             transform.localEulerAngles = new Vector3(0, 0,  180.0f - transform.localEulerAngles.z );
         }
+        if (col.name == "LeftWall")
+            Destroy(gameObject);
 
         if(collideCount == 1)
         {

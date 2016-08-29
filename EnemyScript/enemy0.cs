@@ -5,6 +5,7 @@ public class enemy0 : MonoBehaviour {
     StageManager stageMng;
     GameManager mng;
     AudioSource audio;
+    public GameObject effect;
     void Start()
     {
         mng = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -18,6 +19,7 @@ public class enemy0 : MonoBehaviour {
             mng.Score += 100;
         }
         audio.Play();
+        Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(gameObject,0.1f);
         stageMng.StartCoroutine("checkEnemy");
     }
