@@ -3,13 +3,17 @@ using System.Collections;
 
 public class ShootingStar_Control : MonoBehaviour {
 
+    GameManager mng;
     Arrow_Control arrow_ctrl;
+    EnergyBar engCtrl;
     public float speed;
     int collideCount = 0; //부딪힌 횟수
     // Use this for initialization
     void Start () {
 
         arrow_ctrl = GameObject.Find("Arrow").GetComponent<Arrow_Control>();
+        engCtrl = GameObject.Find("Energy").GetComponent<EnergyBar>();
+        mng = GameObject.Find("GameManager").GetComponent<GameManager>();
         speed = arrow_ctrl.power;
 
 
@@ -53,6 +57,9 @@ public class ShootingStar_Control : MonoBehaviour {
         else if(collideCount >= 4)
         {
             Destroy(gameObject);
+            if (engCtrl.CurEng <= 0)
+                mng.GameOver();
+                
         }
         speed = speed + (collideCount * 2.0f);
 

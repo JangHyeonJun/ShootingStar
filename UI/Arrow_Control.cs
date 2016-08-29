@@ -20,7 +20,9 @@ public class Arrow_Control : MonoBehaviour
     public GameObject shootingStar;
     public GameObject arrowHead, arrowBody;
     public GameObject emissionParticle;
+    public GameObject finalchance;
     public Text txt;
+
     AudioSource audio;
     public List<AudioClip> sounds;
     EnergyBar engCtrl;
@@ -78,8 +80,11 @@ public class Arrow_Control : MonoBehaviour
 
                 // 에너지 게이지 코드
                 if (engCtrl.CurEng >= 0)
-                    power = relative_worldPos.magnitude * 2.0f;
+                    power = relative_worldPos.magnitude * 2.0f + 1.5f;
                 engCtrl.CurEng = buf - power;
+
+                if (engCtrl.CurEng <= 0)
+                    finalchance.SetActive(true);
                 
             }
             if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
@@ -91,6 +96,7 @@ public class Arrow_Control : MonoBehaviour
                 arrowHead.SetActive(false);
                 arrowBody.SetActive(false);
                 emissionParticle.SetActive(false);
+                finalchance.SetActive(false);
             }
         }
     }

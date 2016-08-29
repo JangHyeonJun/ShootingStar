@@ -7,12 +7,13 @@ public class GameManager : MonoBehaviour {
     StageManager stageMng;
     TitleColor titlecolor;
 
-    public GameObject UI, PlayUI, TitleUI;
+    public GameObject UI, PlayUI, TitleUI, GameOverUI;
     public GameObject stage0;
 
     public Text MaxScoreText;
     public int HighScore = 0;
     public int Score = 0;
+    public bool gameover = false;
 
     void Awake()
     {
@@ -32,7 +33,20 @@ public class GameManager : MonoBehaviour {
         TitleUI.SetActive(false);
         PlayUI.SetActive(true);
         titlecolor.gameStart = false;
+        gameover = false;
         Instantiate(stage0, stage0.transform.position, Quaternion.identity);
+    }
+
+    public void GameOver()
+    {
+        gameover = true;
+        PlayUI.SetActive(false);
+        GameOverUI.SetActive(true);
+    }
+    public void goTitle()
+    {
+        GameOverUI.SetActive(false);
+        TitleUI.SetActive(true);
     }
 
     void SaveData()
