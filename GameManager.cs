@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
     StageManager stageMng;
     TitleColor titlecolor;
 
+    public GameObject star, clicksound;
     public GameObject UI, PlayUI, TitleUI, GameOverUI;
     public GameObject stage0;
 
@@ -29,10 +30,16 @@ public class GameManager : MonoBehaviour {
     IEnumerator startGame()
     {
         titlecolor.gameStart = true;
-        yield return new WaitForSeconds(2.0f);
+        clicksound.SetActive(true);
+        yield return new WaitForSeconds(2.0f);  // 타이틀 애니메이션 효과 2초 기다린 후 게임시작.
+
+        titlecolor.gameStart = false;
+        clicksound.SetActive(false);
+
         TitleUI.SetActive(false);
         PlayUI.SetActive(true);
-        titlecolor.gameStart = false;
+        star.SetActive(true);
+
         gameover = false;
         Instantiate(stage0, stage0.transform.position, Quaternion.identity);
     }
@@ -41,6 +48,7 @@ public class GameManager : MonoBehaviour {
     {
         gameover = true;
         PlayUI.SetActive(false);
+        star.SetActive(false);
         GameOverUI.SetActive(true);
     }
     public void goTitle()
