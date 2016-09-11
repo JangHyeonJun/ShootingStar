@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class enemy3 : MonoBehaviour {
+public class enemy5 : MonoBehaviour {
 
     EnergyBar eng;
     StageManager stageMng;
@@ -25,7 +25,7 @@ public class enemy3 : MonoBehaviour {
         switch (phase)
         {
             case 0:
-                transform.Translate(2.0f * Vector2.down * Time.deltaTime);
+                transform.Translate(1.0f * Vector2.down * Time.deltaTime);
                 if (timer >= 2.0f)
                 {
                     phase = 1;
@@ -34,7 +34,7 @@ public class enemy3 : MonoBehaviour {
                 break;
 
             case 1:
-                transform.Translate(4.0f * Vector2.down * Time.deltaTime);
+                transform.Translate(6.0f * Vector2.down * Time.deltaTime);
                 if (timer >= 1.0f)
                 {
                     phase = 2;
@@ -43,8 +43,8 @@ public class enemy3 : MonoBehaviour {
                 break;
 
             case 2:
-                transform.Translate(2.0f * Vector2.up * Time.deltaTime);
-                if (timer >= 2.0f)
+                transform.Translate(6.0f * Vector2.up * Time.deltaTime);
+                if (timer >= 1.0f)
                 {
                     phase = 3;
                     timer = 0;
@@ -52,8 +52,8 @@ public class enemy3 : MonoBehaviour {
                 break;
 
             case 3:
-                transform.Translate(4.0f * Vector2.up * Time.deltaTime);
-                if (timer >= 1.0f)
+                transform.Translate(1.0f * Vector2.up * Time.deltaTime);
+                if (timer >= 2.0f)
                 {
                     phase = 0;
                     timer = 0;
@@ -64,8 +64,8 @@ public class enemy3 : MonoBehaviour {
                 break;
         }
 
-            if (mng.gameover)
-                Destroy(gameObject);
+        if (mng.gameover)
+            Destroy(gameObject);
     }
     void OnTriggerEnter2D(Collider2D col)
     {

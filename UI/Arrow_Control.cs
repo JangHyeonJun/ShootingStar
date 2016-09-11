@@ -21,12 +21,13 @@ public class Arrow_Control : MonoBehaviour
     public GameObject arrowHead, arrowBody;
     public GameObject emissionParticle;
     public GameObject finalchance;
-    public Text txt;
 
     AudioSource audio;
     public List<AudioClip> sounds;
     EnergyBar engCtrl;
 
+    public bool attackOn = false;
+    public bool pushing = false;
 
     // Use this for initialization
     void Start()
@@ -41,24 +42,23 @@ public class Arrow_Control : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        txt.text = engCtrl.CurEng +"  "+ buf;
-        if (Input.touchCount > 0)
+        if (power <= 0)
+            power = 0;
+        if (Input.touchCount > 0 && !attackOn)
         {
-            
-
             curTouch = Input.touches[0].position;
             worldPos = Camera.main.ScreenToWorldPoint(curTouch);
             // 터치 단계
             if (Input.touches[0].phase == TouchPhase.Began)
             {
+                pushing = true;
                 buf = engCtrl.CurEng; // 현재체력 담아두는 임시변수
                 init_worldPos = worldPos;
                 audio.clip = sounds[0];
                 audio.Play();
                 audio.loop = true;
                 emissionParticle.SetActive(true);
-                
-                
+                 
             }
             if (Input.touches[0].phase == TouchPhase.Moved)
             {
@@ -89,6 +89,9 @@ public class Arrow_Control : MonoBehaviour
             }
             if (Input.touches[0].phase == TouchPhase.Ended) // 터치 값 초기화
             {
+                buf = engCtrl.CurEng;
+                pushing = false;
+                attackOn = true;
                 audio.clip = sounds[1];
                 audio.loop = false;
                 audio.Play();

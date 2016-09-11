@@ -6,6 +6,9 @@ public class ShootingStar_Control : MonoBehaviour {
     GameManager mng;
     Arrow_Control arrow_ctrl;
     EnergyBar engCtrl;
+
+    public GameObject collideEffect;
+
     public float speed;
     int collideCount = 0; //부딪힌 횟수
     // Use this for initialization
@@ -33,16 +36,21 @@ public class ShootingStar_Control : MonoBehaviour {
 
         if (col.name == "UpWall" || col.name == "DownWall")
         {
+            StartCoroutine("colEffect");
             transform.localEulerAngles = new Vector3(0, 0, - transform.localEulerAngles.z );
         }
         if (col.name == "RightWall")
         {
+            StartCoroutine("colEffect");
             transform.localEulerAngles = new Vector3(0, 0,  180.0f - transform.localEulerAngles.z );
         }
         if (col.name == "LeftWall")
+        {
             Destroy(gameObject);
+            arrow_ctrl.attackOn = false;
+        }
 
-        if(collideCount == 1)
+            if (collideCount == 1)
         {
             GetComponent<Renderer>().material.color = Color.red;
         }
@@ -57,11 +65,16 @@ public class ShootingStar_Control : MonoBehaviour {
         else if(collideCount >= 4)
         {
             Destroy(gameObject);
-            if (engCtrl.CurEng <= 0)
-                mng.GameOver();
-                
+            arrow_ctrl.attackOn = false;
         }
         speed = speed + (collideCount * 2.0f);
 
+    }
+
+    IEnumerator colEffect()
+    {
+        collideEffect.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        collideEffect.SetActive(false);
     }
 }

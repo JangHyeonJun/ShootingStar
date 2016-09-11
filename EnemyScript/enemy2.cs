@@ -3,6 +3,7 @@ using System.Collections;
 
 public class enemy2 : MonoBehaviour {
 
+    EnergyBar eng;
     StageManager stageMng;
     GameManager mng;
     AudioSource audio;
@@ -10,6 +11,7 @@ public class enemy2 : MonoBehaviour {
     public float timer;
     void Start()
     {
+        eng = GameObject.Find("Energy").GetComponent<EnergyBar>();
         mng = GameObject.Find("GameManager").GetComponent<GameManager>();
         stageMng = GameObject.Find("StageManager").GetComponent<StageManager>();
         audio = GetComponent<AudioSource>();
@@ -61,15 +63,19 @@ public class enemy2 : MonoBehaviour {
             default:
                 break;
         }
+
+            if (mng.gameover)
+                Destroy(gameObject);
+
     }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "ShootingStar")
         {
-            mng.Score += 250;
+            eng.CurEng += 3;
+            audio.Play();
+            Destroy(gameObject, 0.1f);
+            stageMng.StartCoroutine("checkEnemy");
         }
-        audio.Play();
-        Destroy(gameObject, 0.1f);
-        stageMng.StartCoroutine("checkEnemy");
     }
 }
